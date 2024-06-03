@@ -21,11 +21,13 @@ struct list::node {
 /* crea la lista vuota */
 void list::createEmpty(List& li){
 	//TO DO
+	li = new node;
 }
 
 /* "smantella" la lista (tranne la sentinella) */
 void list::clear(List& li){
 	//TO DO
+	
 }
 
 /* restituisce true se la lista e' vuota */
