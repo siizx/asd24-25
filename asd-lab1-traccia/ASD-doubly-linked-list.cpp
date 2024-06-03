@@ -27,13 +27,17 @@ void list::createEmpty(List& li){
 /* "smantella" la lista (tranne la sentinella) */
 void list::clear(List& li){
 	//TO DO
-	
+	if(!isEmpty(li){
+		List s = li;
+		List curr = li;
+		List del = 
+	}
 }
 
 /* restituisce true se la lista e' vuota */
 bool list::isEmpty(const List& li){
   //TO DO
-  return false;
+  return li == li->next;
 }
 
 /* restituisce la dimensione della lista */
