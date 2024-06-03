@@ -21,16 +21,24 @@ struct list::node {
 /* crea la lista vuota */
 void list::createEmpty(List& li){
 	//TO DO
-	li = new node;
+	li = new list::node;
+	li->next = li;
+	li->prev = li;
 }
 
 /* "smantella" la lista (tranne la sentinella) */
 void list::clear(List& li){
 	//TO DO
-	if(!isEmpty(li){
-		List s = li;
-		List curr = li;
-		List del = 
+	if(!isEmpty(li)){
+		List curr = li->next->next;
+		List del = li->next;
+
+		while(del != li){
+			curr = curr->next;
+			delete(del);
+			del = curr;
+			curr = curr->next;
+		}
 	}
 }
 
@@ -43,20 +51,43 @@ bool list::isEmpty(const List& li){
 /* restituisce la dimensione della lista */
 unsigned int list::size(const List& li){
 	//TO DO
-  return 9999;
+	if(isEmpty(li)) return 0;
+	List aux = li->next;
+	int count = 0;
+	while(aux != li){
+		aux = aux->next;
+		count++;
+	}
+  return count;
 }
 
 /* restituisce l'elemento in posizione pos */
 /* se pos non e corretta, solleva una eccezione di tipo string*/
 Elem list::get(unsigned int pos, const List& li){
 	//TO DO
-  return 7777;
+	if(isEmpty(li)){ // throw exeption
+		throw std::string("get(): argument List is empty.");
+	}
+
+	List aux = li->next;
+	for(int i = 0; i< pos; i++){
+		aux = aux->next;
+		if(aux == li) throw std::string("get(): pos invalida.");
+	}
+  return aux->info;
 }
 
 /* modifica l'elemento in posizione pos */
 /* se pos non e' corretta, solleva una eccezione di tipo string*/
 void list::set(unsigned int pos, Elem el, const List& li){
 	//TO DO
+	if(isEmpty(li)) throw std::string("set(): argument List is empty.");
+	List curr = li->next;
+	for(int i = 0; i< pos; i++){
+		curr = curr->next;
+		if(curr == li) throw std::string("set(): pos invalida.");
+	}
+	curr->info = el;
 }
 
 /* inserisce l'elemento in posizione pos*/
@@ -64,28 +95,104 @@ void list::set(unsigned int pos, Elem el, const List& li){
 /*se pos non e' corretta, solleva una eccezione di tipo string*/
 void list::add(unsigned int pos, Elem el, const List& li){
 	//TO DO
+	if(isEmpty(li) && pos != 0) throw std::string("add(): argument List is empty."); // se la lista e' vuopta e pos non e' 0, errore
+	if(isEmpty(li) && pos == 0) {
+		List n = new node;
+		n->info = el;
+		n->next = li;
+		n->prev = li;
+		li->next = n;
+		li->prev = n;
+	}else{
+		List n = new node; // nuovo nodo
+		n->info = el;
+		
+		List prev = li;
+		List curr = li->next;
+		
+		for(int i = 0; i < pos; i++){
+			curr = curr->next;
+			prev = prev->next;
+			if(curr == li) throw std::string("add(): pos invalida.");
+		}
+		n->next = curr;
+		n->prev = prev;
+		prev->next = n;
+		curr->prev = n;
+	}
+
 }
 
 /* inserisce l'elemento alla fine della lista */
 void list::addRear(Elem el, const List& li){
 	//TO DO
+	List n = new node;
+	n->info = el;
+
+	li->prev->next = n;
+	n->next = li;
+	li->prev = n;
 }
 
 /* inserisce l'elemento all'inizio della lista */
 void list::addFront(Elem el, const List& li) {
 	//TO DO
+	List n = new node;
+	n->info = el;
+
+	li->next->prev = n;
+	n->next = li->next;
+	n->prev = li;
+	li->next = n;
 }
 
 /* cancella l'elemento in posizione pos dalla lista */
 /* se pos non e' corretta, solleva una eccezione di tipo string*/
 void list::removePos(unsigned int pos,const List& li){
 	//TO DO
+	if(isEmpty(li)) throw std::string("removePos(): la lista e' vuota.");
+	List aux  = li->next;
+	List prev = li;
+	for(int i = 0; i<pos; i++){
+		aux = aux->next;
+		prev = prev->next;
+		if(aux == li) throw std::string("removePos(): invalid pos.)");
+	}
+	
+	List d = aux;
+	aux = aux->next;
+
+	prev->next = aux;
+	aux->prev = prev;
+
+	delete(d);
+
 }
 
 /* cancella tutte le occorrenze dell'elemento elem*/
 /*se presenti, dalla lista */
 void list::removeEl(Elem el,const List& li){
 	//TO DO
+	if(!isEmpty(li)){
+		List prev = li;
+		List aux = li->next;
+		List d;
+
+		while(aux != li){
+			if(aux->info == el){
+				d = aux;
+				aux = aux->next;
+
+				prev->next = aux;
+				aux->prev = prev;
+
+				delete(d);
+			}else{
+				prev = aux;
+				aux = aux->next;
+			}
+		}// fine while
+	}// fine if
 }
 
 /**************************************************/
