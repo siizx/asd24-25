@@ -34,11 +34,12 @@ void list::clear(List& li){
 		List del = li->next;
 
 		while(del != li){
-			curr = curr->next;
 			delete(del);
 			del = curr;
 			curr = curr->next;
 		}
+		li->next = li;
+		li->prev = li;
 	}
 }
 
@@ -110,10 +111,10 @@ void list::add(unsigned int pos, Elem el, const List& li){
 		List prev = li;
 		List curr = li->next;
 		
-		for(int i = 0; i < pos; i++){
+		for(unsigned int i = 0; i < pos; i++){
 			curr = curr->next;
 			prev = prev->next;
-			if(curr == li) throw std::string("add(): pos invalida.");
+			if(prev == li) throw std::string("add(): pos invalida.");
 		}
 		n->next = curr;
 		n->prev = prev;
