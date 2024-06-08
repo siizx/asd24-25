@@ -37,11 +37,14 @@ void qs(){
 /*quicksort con scelta banale del pivot*/
 void quickSortTrivial(vector<int>& v){
    /* Implementare quickSort banale con partizione in place */
+   
 }
 
 /*quicksort randomizzato*/
 void quickSortRandom(vector<int>& v){
    /* Implementare quickSort randomizzato con partizione in place */
+   srand(time(NULL));
+
 }
 
 
