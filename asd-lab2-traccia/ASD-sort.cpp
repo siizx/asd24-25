@@ -42,6 +42,7 @@ void quickSortTrivial(vector<int>& v){
 /*quicksort randomizzato*/
 void quickSortRandom(vector<int>& v){
    /* Implementare quickSort randomizzato con partizione in place */
+   srand(NULL);
 }
 
 
