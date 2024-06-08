@@ -9,10 +9,31 @@ void mergesort(vector<int> &v){
 }
 
 void ms(vector<int> &v, int inizio, int fine){
-	
-
+	if(inizio < fine){
+		int centro = (inizio + fine) / 2;
+		ms(v, inizio, centro);
+		ms(v, centro+1, fine);
+		fondi(v, inizio, centro, fine);
+	}
 }
 
+void fondi(vector<int> &v, int inizio, int centro, int fine){
+	if(inizio < fine){
+		
+		// creo 2 vector che utilizzero' per effettuare gli scambi in place:
+		vector<int> d,s;
+		// li popolo:
+		for(int i=0; i < centro; i++){
+			s.pushback(v[i]);
+		}
+		for(int j = centro; j<= fine; j++){
+			d.pushback(v[j]);
+		}
+
+		// ora creo tutte le variabili ausiliarie:
+
+	}
+}
 
 int main(){
 	
