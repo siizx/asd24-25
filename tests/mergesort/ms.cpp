@@ -4,8 +4,42 @@
 
 using namespace std; // minchia, mi ero dimenticato tutte ste cazzatine
 
-void mergesort(vector<int> &v){
-	if(v.size() > 0) ms(v, 0, v.size()-1);
+void fondi(vector<int> &v, unsigned int inizio, unsigned int centro, unsigned int fine){
+	if(inizio < fine){
+		
+		// creo 2 vector che utilizzero' per effettuare gli scambi in place:
+		vector<int> d,s;
+		// li popolo:
+		for(unsigned int i=inizio; i <= centro; i++) s.push_back(v[i]);
+        for(unsigned int j = centro+1; j<= fine; j++) d.push_back(v[j]);
+
+		// ora creo tutte le variabili ausiliarie:
+		unsigned int sinMaxIndex = s.size();
+		unsigned int sinIndex = 0;
+		unsigned int desMaxIndex = d.size();
+		unsigned int desIndex = 0; 
+
+		for(unsigned int i = inizio; i<= fine; i++){
+			
+			if(sinIndex < sinMaxIndex && desIndex < desMaxIndex){
+				if(s[sinIndex] < d[desIndex]){
+					v[i] = s[sinIndex];
+					sinIndex++; continue;
+				}else{
+					v[i] = d[desIndex];
+					desIndex++; continue;
+				}
+			}
+			if(sinIndex == sinMaxIndex && desIndex < desMaxIndex){
+					v[i] = d[desIndex];
+					desIndex++; continue;
+			}
+			if(sinIndex < sinMaxIndex && desIndex == desMaxIndex){
+					v[i] = s[sinIndex];
+					sinIndex++; continue;
+			}
+		}
+	}	
 }
 
 void ms(vector<int> &v, unsigned int inizio, unsigned int fine){
@@ -17,30 +51,8 @@ void ms(vector<int> &v, unsigned int inizio, unsigned int fine){
 	}
 }
 
-void fondi(vector<int> &v, unsigned int inizio, unsigned int centro, unsigned int fine){
-	if(inizio < fine){
-		
-		// creo 2 vector che utilizzero' per effettuare gli scambi in place:
-		vector<int> d,s;
-		// li popolo:
-		for(unsigned int i=0; i < centro; i++){
-			s.pushback(v[i]);
-		}
-		for(unsigned int j = centro; j<= fine; j++){
-			d.pushback(v[j]);
-		}
-
-		// ora creo tutte le variabili ausiliarie:
-		unsigned int sinMaxIndex = 0; 
-		unsigned int sinIndex = s.size();
-
-		unsigned int desMaxIndex = 0;
-		unsigned int desIndex = d.size();
-
-		for(){
-			
-		}
-
+void mergesort(vector<int> &v){
+	if(v.size() > 0) ms(v, 0, v.size()-1);
 }
 
 int main(){
