@@ -31,8 +31,16 @@ void fondi(vector<int> &v, int inizio, int centro, int fine){
 		}
 
 		// ora creo tutte le variabili ausiliarie:
+		int sinMaxIndex = centro -1;
+		int sinIndex = inizio;
 
-	}
+		int desMaxIndex = fine;
+		int desIndex = centro;
+
+		while(sinIndex < sinMaxIndex || desIndex < desMaxIndex){
+			
+		}
+
 }
 
 int main(){
