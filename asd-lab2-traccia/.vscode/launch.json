@@ -2,23 +2,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C++ Build",
+            "name": "Launch ASD-main-sort",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/bin/bash",
-            "args": [
-                "g++",
-                "-g",
-                "-Wall",
-                "-std=c++14",
-                "ASD-sort.cpp",
-                "ASD-main-sort.cpp",
-                "-o",
-                "ASD-main-sort"
-            ],
+            "program": "${workspaceFolder}/ASD-main-sort",
+            "args": [],
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": true
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build ASD-main-sort",
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }

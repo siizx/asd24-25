@@ -1,0 +1,26 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build ASD-main-sort",
+			"type": "shell",
+			"command": "g++",
+			"args": [
+				"-Wall",
+				"-std=c++14",
+				"ASD-sort.cpp",
+				"ASD-main-sort.cpp",
+				"-o",
+				"ASD-main-sort"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"detail": "Compiler task."
+		}
+	]
+}

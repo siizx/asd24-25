@@ -64,6 +64,7 @@ esecuzione in microsecondi. In più il programma verifica che la vostra implemen
 Per potere usare questo programma, potete compilarlo come segue:
 
 g++ -Wall -std=c++14 ASD-sort.cpp ASD-main-sort.cpp -o ASD-main-sort
+g++ -g -fsanitize=address -Wall -std=c++14 ASD-sort.cpp ASD-main-sort.cpp -o ASD-main-sort
 e poi eseguirlo con ./ASD-main-sort.
 Dovete usare questo programma per ottenere i valori da inserire nel file tempi-di-esecuzione-algo-ordinamento.xls.
 
