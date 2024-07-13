@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C++ Build",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/bin/bash",
+            "args": [
+                "g++",
+                "-g",
+                "-Wall",
+                "-std=c++14",
+                "ASD-sort.cpp",
+                "ASD-main-sort.cpp",
+                "-o",
+                "ASD-main-sort"
+            ],
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true
+        }
+    ]
+}
