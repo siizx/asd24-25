@@ -22,28 +22,22 @@ void swap_ind(vector<int>& v, int i, int j)
 /*       funzioni da implementare                 */
 /**************************************************/
 
-void randomPivotIndex(){
-
+int partitionInPlace(vector<int> &v, int beg ,int end){
 }
 
-void partitionInPlace(){
-
-}
-
-void qs(){
-
+void qs(vector<int> &v, int beg, int end){
 }
 
 /*quicksort con scelta banale del pivot*/
 void quickSortTrivial(vector<int>& v){
    /* Implementare quickSort banale con partizione in place */
-   
 }
 
 /*quicksort randomizzato*/
 void quickSortRandom(vector<int>& v){
    /* Implementare quickSort randomizzato con partizione in place */
    srand(time(NULL));
+   qs(v, 0, v.size());
 }
 
 
