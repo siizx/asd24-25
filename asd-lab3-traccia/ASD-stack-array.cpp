@@ -32,7 +32,7 @@ bool stack::isEmpty(const Stack &st)
 void stack::push(const Elem el, Stack &st)
 {
    // to do
-   if (st.size < st.maxsize)
+   if ((st.size + 1) < st.maxsize)
    {
       st.data[st.size] = el;
       st.size++;
@@ -48,8 +48,8 @@ void stack::push(const Elem el, Stack &st)
       st.data = d;
 
       st.maxsize = (st.maxsize * 2) - 1;
-      st.size++;
       st.data[st.size] = el;
+      st.size++;
    }
 }
 

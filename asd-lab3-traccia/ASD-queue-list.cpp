@@ -8,8 +8,9 @@
 using namespace queue;
 using namespace std;
 
-//implementazione di una doubly linked list
-struct queue::cell{
+// implementazione di una doubly linked list
+struct queue::cell
+{
    Elem el;
    cell *next;
    cell *prev;
@@ -20,37 +21,87 @@ struct queue::cell{
 /**************************************************/
 
 /* restituisce la coda vuota */
-Queue queue::createEmpty(){
+Queue queue::createEmpty()
+{
    // to do
    Queue qret;
+   qret.li = EMPTYLIST;
+   qret.end = nullptr;
    return qret;
-} 
+}
 
 /* restituisce true se la queue e' vuota */
-bool queue::isEmpty(const Queue& q){
+bool queue::isEmpty(const Queue &q)
+{
    // to do
-   return true;
+   return ((!q.li));
 }
 
 /* inserisce l'elemento "da una parte" della coda */
-void queue::enqueue(Elem e, Queue& q){
+void queue::enqueue(Elem e, Queue &q)
+{
    // to do
+   cell *nl = new cell;
+   nl->el = e;
+
+   if (isEmpty(q))
+   {
+      q.li = nl;
+      q.end = q.li;
+      q.li->next = q.li;
+      q.li->prev = q.li;
+   }
+   else
+   {
+      nl->prev = q.li->prev;
+      nl->next = q.li;
+
+      q.li->prev->next = nl;
+      q.li->prev = nl;
+      q.li = nl;
+   }
 }
 
 /* cancella l'elemento (se esiste) "dall'altra parte */
 /*della coda" e lo restituisce; se la coda è vuota solleva */
 /*una eccezione di tipo string*/
-Elem queue::dequeue(Queue& q){
+Elem queue::dequeue(Queue &q)
+{
    // to do
    Elem ret;
-   return ret;
+   if (isEmpty(q))
+   {
+      throw string("equeue(): q is empty");
+   }
+   else if (q.li->next == q.li)
+   {
+      ret = q.li->el;
+      delete q.li;
+      q.li = EMPTYLIST;
+      q.end = nullptr;
+   }
+   else
+   {
+      ret = q.end->el;               // valore da restituire
+      cell *aux = q.end;             // cella da cancellare
+      q.end = aux->prev;             // aggiorno l'ultimo elemento della lista
+      q.end->prev->next = EMPTYLIST; // rimossa l'ultima cella
+      delete aux;                    // cancellata memoria cella
+   }
+   return ret; // valore restituito
 }
 
-/* restituisce l'elemento in prima posizione (se esiste) senza cancellarlo*/ 
+/* restituisce l'elemento in prima posizione (se esiste) senza cancellarlo*/
 /*se la coda è vuota solleva una eccezione di tipo string*/
-Elem queue::first(Queue& q){
+Elem queue::first(Queue &q)
+{
    // to do
-   Elem ret;
+   if (isEmpty(q))
+   {
+      throw string("first(): q is empty");
+   }
+
+   Elem ret = q.li->el;
    return ret;
 }
 
@@ -58,50 +109,58 @@ Elem queue::first(Queue& q){
 /*      funzioni implementate                    */
 /**************************************************/
 /* riempie una coda da file */
-Queue queue::readFromFile(std::string name_file){
+Queue queue::readFromFile(std::string name_file)
+{
    ifstream infile;
    string read_data;
    infile.open(name_file);
-   Queue qret=createEmpty();
-   while (getline (infile,read_data)){
-      if(read_data.length()>0){
-         enqueue(stoi(read_data),qret);
-      } 
+   Queue qret = createEmpty();
+   while (getline(infile, read_data))
+   {
+      if (read_data.length() > 0)
+      {
+         enqueue(stoi(read_data), qret);
+      }
    }
    return qret;
 }
 
 /* legge il contenuto di una coda da standard input */
-Queue queue::readFromStdin(){
+Queue queue::readFromStdin()
+{
    cout << "Inserire una sequenza di numeri separati da spazi seguiti da END per terminare\n";
-   Queue qret=createEmpty();
+   Queue qret = createEmpty();
    string read_data;
-   cin>>read_data;
-   while(read_data!="END"){
-      enqueue(stoi(read_data),qret);
-      cin>>read_data;
+   cin >> read_data;
+   while (read_data != "END")
+   {
+      enqueue(stoi(read_data), qret);
+      cin >> read_data;
    }
    return qret;
 }
 
 /* stampa la coda*/
-void queue::print(const Queue& q){
-   cout<<tostring(q)<<endl;
+void queue::print(const Queue &q)
+{
+   cout << tostring(q) << endl;
 }
 
 /* produce una string contenente la coda*/
-std::string queue::tostring(const Queue& q){
-   string out="";
-   out+="{";
-   list l=q.li;
-   while(l!=EMPTYLIST){
-      out+=to_string(l->el);
-      if(l!=q.end){
-         out+=",";
+std::string queue::tostring(const Queue &q)
+{
+   string out = "";
+   out += "{";
+   list l = q.li;
+   while (l != EMPTYLIST)
+   {
+      out += to_string(l->el);
+      if (l != q.end)
+      {
+         out += ",";
       }
-      l=l->next;
+      l = l->next;
    }
-   out+="}";
+   out += "}";
    return out;
 }
-
