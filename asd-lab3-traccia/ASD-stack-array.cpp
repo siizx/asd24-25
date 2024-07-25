@@ -16,18 +16,16 @@ Stack stack::createEmpty()
 {
    // to do
    Stack sret;
-   sret.data[BLOCKDIM];
+   sret.data = new Elem[BLOCKDIM];
    sret.size = 0;
-   sret.maxsize = BLOCKDIM - 1;
+   sret.maxsize = BLOCKDIM;
    return sret;
 }
 
 /* restituisce true se lo stack e' vuoto */
 bool stack::isEmpty(const Stack &st)
 {
-   if (st.size != 0)
-      return false;
-   return true;
+   return (st.size == 0);
 }
 
 /* aggiunge elem in cima (operazione safe, si può sempre fare) */
@@ -41,83 +39,113 @@ void stack::push(const Elem el, Stack &st)
    }
    else
    {
-   }
-
-   /* toglie dallo stack l'ultimo elemento e lo restituisce */
-   /* se lo stack è vuoto solleva una eccezione di tipo string */
-   Elem stack::pop(Stack & st)
-   {
-      // to do
-      Elem ret = st[st.size];
-      return ret;
-   }
-
-   /* restituisce l'ultimo elemento dello stack senza toglierlo.*/
-   /* Se lo stack è vuoto solleva una eccezione di tipo string*/
-   Elem stack::top(Stack & st)
-   {
-      // to do
-      Elem ret;
-      return ret;
-   }
-
-   /**************************************************/
-   /*      funzioni implementate                    */
-   /**************************************************/
-
-   /* riempie lo stack da file */
-   Stack stack::readFromFile(std::string name_file)
-   {
-      ifstream infile;
-      string read_data;
-      infile.open(name_file);
-      Stack sret = createEmpty();
-      while (getline(infile, read_data))
+      Elem *d = new Elem[st.maxsize * 2];
+      for (unsigned int i = 0; i < st.size; i++)
       {
-         if (read_data.length() > 0)
-         {
-            push(stoi(read_data), sret);
-         }
+         d[i] = st.data[i];
       }
-      return sret;
-   }
+      delete[] st.data;
+      st.data = d;
 
-   /* legge il contenuto di uno stack da standard input */
-   Stack stack::readFromStdin()
+      st.maxsize = (st.maxsize * 2) - 1;
+      st.size++;
+      st.data[st.size] = el;
+   }
+}
+
+/* toglie dallo stack l'ultimo elemento e lo restituisce */
+/* se lo stack è vuoto solleva una eccezione di tipo string */
+Elem stack::pop(Stack &st)
+{
+   // to do
+   if (isEmpty(st))
+      throw string("Errore: pop(). st is empty");
+
+   Elem ret = st.data[st.size - 1];
+   st.size--;
+
+   // if ((st.size < st.maxsize / 4) && st.size > BLOCKDIM)
+   // {
+   //    Elem *d = new Elem[st.maxsize / 2];
+   //    for (unsigned int i = 0; i < st.size; i++)
+   //    {
+   //       d[i] = st.data[i];
+   //    }
+   //    delete[] st.data;
+   //    st.data = d;
+   //    st.maxsize = (st.maxsize / 2) - 1;
+   // }
+   return ret;
+}
+
+/* restituisce l'ultimo elemento dello stack senza toglierlo.*/
+/* Se lo stack è vuoto solleva una eccezione di tipo string*/
+Elem stack::top(Stack &st)
+{
+   // to do
+   if (isEmpty(st))
+      throw string("Errore: pop(). st is empty");
+   Elem ret = st.data[st.size - 1];
+   return ret;
+}
+
+/**************************************************/
+/*      funzioni implementate                    */
+/**************************************************/
+
+/* riempie lo stack da file */
+Stack stack::readFromFile(std::string name_file)
+{
+   ifstream infile;
+   string read_data;
+   infile.open(name_file);
+   Stack sret = createEmpty();
+   while (getline(infile, read_data))
    {
-      cout << "Inserire una sequenza di numeri separati da spazi seguiti da END per terminare\n";
-      Stack sret = createEmpty();
-      string read_data;
-      cin >> read_data;
-      while (read_data != "END")
+      if (read_data.length() > 0)
       {
          push(stoi(read_data), sret);
-         cin >> read_data;
       }
-      return sret;
    }
+   return sret;
+}
 
-   /* stampa lo stack*/
-   void stack::print(const Stack &st)
+/* legge il contenuto di uno stack da standard input */
+Stack stack::readFromStdin()
+{
+   cout << "Inserire una sequenza di numeri separati da spazi seguiti da END per terminare\n";
+   Stack sret = createEmpty();
+   string read_data;
+   cin >> read_data;
+   while (read_data != "END")
    {
-      cout << tostring(st) << endl;
+      push(stoi(read_data), sret);
+      cin >> read_data;
    }
+   return sret;
+}
 
-   /* produce una stringa contenente lo stack*/
-   std::string stack::tostring(const Stack &st)
+/* stampa lo stack*/
+void stack::print(const Stack &st)
+{
+   cout << tostring(st) << endl;
+}
+
+/* produce una stringa contenente lo stack*/
+std::string stack::tostring(const Stack &st)
+{
+   string out = "";
+   out += "{";
+   unsigned int pos = 0;
+   while (pos < st.size)
    {
-      string out = "";
-      out += "{";
-      unsigned int pos = 0;
-      while (pos < st.size)
+      out += to_string(st.data[pos]);
+      if (pos + 1 != st.size)
       {
-         out += to_string(st.data[pos]);
-         if (pos + 1 != st.size)
-         {
-            out += ",";
-         }
-         ++pos;
+         out += ",";
       }
-      out += "}";
-      return out;
+      ++pos;
    }
+   out += "}";
+   return out;
+}
