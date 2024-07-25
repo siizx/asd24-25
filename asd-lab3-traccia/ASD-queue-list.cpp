@@ -43,21 +43,18 @@ void queue::enqueue(Elem e, Queue &q)
    // to do
    cell *nl = new cell;
    nl->el = e;
+   nl->prev = nullptr;
 
    if (isEmpty(q))
    {
       q.li = nl;
       q.end = q.li;
-      q.li->next = q.li;
-      q.li->prev = q.li;
+      q.li->next = nullptr;
    }
    else
    {
-      nl->prev = q.li->prev;
-      nl->next = q.li;
-
-      q.li->prev->next = nl;
       q.li->prev = nl;
+      nl->next = q.li;
       q.li = nl;
    }
 }
@@ -73,7 +70,7 @@ Elem queue::dequeue(Queue &q)
    {
       throw string("equeue(): q is empty");
    }
-   else if (q.li->next == q.li)
+   else if (q.li->next == nullptr)
    {
       ret = q.li->el;
       delete q.li;
@@ -82,11 +79,11 @@ Elem queue::dequeue(Queue &q)
    }
    else
    {
-      ret = q.end->el;               // valore da restituire
-      cell *aux = q.end;             // cella da cancellare
-      q.end = aux->prev;             // aggiorno l'ultimo elemento della lista
-      q.end->prev->next = EMPTYLIST; // rimossa l'ultima cella
-      delete aux;                    // cancellata memoria cella
+      ret = q.end->el;       // valore da restituire
+      cell *p = q.end->prev; // p = nuovo ultimo elemento
+      delete q.end;
+      q.end = p;
+      q.end->next = nullptr;
    }
    return ret; // valore restituito
 }
@@ -101,7 +98,7 @@ Elem queue::first(Queue &q)
       throw string("first(): q is empty");
    }
 
-   Elem ret = q.li->el;
+   Elem ret = q.end->el;
    return ret;
 }
 

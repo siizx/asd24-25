@@ -64,17 +64,6 @@ Elem stack::pop(Stack &st)
    Elem ret = st.data[st.size - 1];
    st.size--;
 
-   // if ((st.size < st.maxsize / 4) && st.size > BLOCKDIM)
-   // {
-   //    Elem *d = new Elem[st.maxsize / 2];
-   //    for (unsigned int i = 0; i < st.size; i++)
-   //    {
-   //       d[i] = st.data[i];
-   //    }
-   //    delete[] st.data;
-   //    st.data = d;
-   //    st.maxsize = (st.maxsize / 2) - 1;
-   // }
    return ret;
 }
 
